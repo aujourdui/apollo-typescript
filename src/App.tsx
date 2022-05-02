@@ -6,6 +6,7 @@ import {
   ApolloProvider,
   useQuery,
   gql,
+  useLazyQuery,
 } from "@apollo/client";
 
 const client = new ApolloClient({
@@ -72,6 +73,22 @@ function DogPhoto({ breed }): any {
   );
 }
 
+function DelayedQuery(): any {
+  const [getDog, { loading, error, data }] = useLazyQuery(GET_DOG_PHOTO);
+
+  if (loading) return <p>Loading ...</p>;
+  if (error) return `Error! ${error}`;
+
+  return (
+    <div>
+      {data?.dog && <img src={data.dog.displayImage} />}
+      <button onClick={() => getDog({ variables: { breed: "bulldog" } })}>
+        Click me!
+      </button>
+    </div>
+  );
+}
+
 function App() {
   const [selectedDog, setSelectedDog] = useState(null);
 
@@ -83,7 +100,8 @@ function App() {
     <ApolloProvider client={client}>
       <div>
         <h2>Building Query components 🚀</h2>
-        {selectedDog && <DogPhoto breed={selectedDog} />}
+        {/* {selectedDog && <DogPhoto breed={selectedDog} />} */}
+        <DelayedQuery />
         <Dogs onDogSelected={onDogSelected} />
       </div>
     </ApolloProvider>
