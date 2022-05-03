@@ -100,8 +100,8 @@ function App() {
     <ApolloProvider client={client}>
       <div>
         <h2>Building Query components 🚀</h2>
-        {/* {selectedDog && <DogPhoto breed={selectedDog} />} */}
-        <DelayedQuery />
+        {selectedDog && <DogPhoto breed={selectedDog} />}
+        {/* <DelayedQuery /> */}
         <Dogs onDogSelected={onDogSelected} />
       </div>
     </ApolloProvider>
